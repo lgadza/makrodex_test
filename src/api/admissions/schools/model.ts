@@ -1,10 +1,10 @@
 import { DataType } from "sequelize-typescript";
 import sequelize from "../../../db";
 import ParentsModel from "../parents/model";
-
-const ApplicantModel=sequelize.define("applicant",{
+import ApplicantModel from "../applicants/model";
+const SchoolModel=sequelize.define("school",{
    
-    applicant_id: {
+    school_id: {
         type: DataType.UUID,
         primaryKey: true,
         defaultValue: DataType.UUIDV4,
@@ -50,7 +50,9 @@ const ApplicantModel=sequelize.define("applicant",{
         allowNull: true,
       },
 })
-ApplicantModel.hasMany(ParentsModel,{foreignKey:"parent_id"});
-ParentsModel.belongsTo(ApplicantModel);
+SchoolModel.hasMany(ParentsModel,{foreignKey:"parent_id"});
+ParentsModel.belongsTo(SchoolModel);
+SchoolModel.hasMany(ApplicantModel,{foreignKey:{allowNull:false}});
+ApplicantModel.belongsTo(SchoolModel);
 
-export default ApplicantModel
+export default SchoolModel
